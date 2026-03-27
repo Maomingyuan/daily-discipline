@@ -2,7 +2,7 @@
   <div class="container">
     <header>
       <div class="logo">自律<span>打卡</span></div>
-      <button @click="authStore.signOut" class="logout-btn">退出</button>
+      <button @click="handleLogout" class="logout-btn">退出</button>
     </header>
     
     <div class="card">
@@ -150,6 +150,11 @@ const onDateSelect = (date) => {
   selectedDate.value = date
   loadSelectedDate()
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+const handleLogout = async () => {
+  await authStore.signOut()
+  window.location.href = '/auth'
 }
 
 const formatDate = (dateStr) => {
