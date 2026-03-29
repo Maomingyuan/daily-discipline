@@ -18,15 +18,13 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: |
-          npm install -g npm@9
-          npm install
+        run: npm install --registry=https://registry.npmjs.org
 
       - name: Build
         run: npm run build
 
       - name: Install Wrangler
-        run: npm install -g wrangler
+        run: npm install -g wrangler --registry=https://registry.npmjs.org
 
       - name: Deploy to Cloudflare Pages
         run: wrangler pages deploy dist --project-name=daily-discipline --branch=main
