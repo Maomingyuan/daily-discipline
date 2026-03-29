@@ -2,7 +2,8 @@
   <div class="container">
     <header>
       <div class="logo">自律<span>打卡</span></div>
-      <button @click="handleLogout" class="logout-btn">退出</button>
+      <button v-if="authStore.user" @click="handleLogout" class="logout-btn">退出</button>
+      <button v-else @click="goToLogin" class="logout-btn">登录</button>
     </header>
     
     <div class="card">
@@ -109,6 +110,16 @@ const stats = computed(() => {
 const saveToday = async () => {
   if (!todayStatus.value) return
   
+  // 未登录时提示并跳转到登录页
+  if (!authStore.user) {
+    toastMessage.value = '请先登录后再保存记录'
+    toastType.value = 'error'
+    setTimeout(() => {
+      window.location.href = '/auth'
+    }, 1500)
+    return
+  }
+  
   const { error } = await checkinStore.saveCheckin(
     selectedDate.value, 
     todayStatus.value, 
@@ -152,6 +163,10 @@ const onDateSelect = (date) => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+const goToLogin = () => {
+  window.location.href = '/auth'
+}
+
 const handleLogout = async () => {
   await authStore.signOut()
   window.location.href = '/auth'
@@ -162,14 +177,18 @@ const formatDate = (dateStr) => {
 }
 
 onMounted(async () => {
-  await checkinStore.fetchCheckins()
+  await authStore.init()
   
-  // 检查今天是否已打卡
-  const today = format(new Date(), 'yyyy-MM-dd')
-  const todayCheckin = checkinStore.checkins.find(c => c.date === today)
-  if (todayCheckin) {
-    todayStatus.value = todayCheckin.status
-    todayNote.value = todayCheckin.note || ''
+  if (authStore.user) {
+    await checkinStore.fetchCheckins()
+    
+    // 检查今天是否已打卡
+    const today = format(new Date(), 'yyyy-MM-dd')
+    const todayCheckin = checkinStore.checkins.find(c => c.date === today)
+    if (todayCheckin) {
+      todayStatus.value = todayCheckin.status
+      todayNote.value = todayCheckin.note || ''
+    }
   }
 })
 </script>

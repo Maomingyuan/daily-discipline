@@ -8,8 +8,7 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('@/views/DashboardView.vue'),
-    meta: { requiresAuth: true }
+    component: () => import('@/views/DashboardView.vue')
   }
 ]
 
