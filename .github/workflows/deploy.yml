@@ -18,10 +18,9 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Check vite
-        run: ls node_modules/.bin/vite && node_modules/.bin/vite --version
+        run: |
+          npm install -g npm@9
+          npm install
 
       - name: Build
         run: npm run build
