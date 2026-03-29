@@ -21,7 +21,7 @@ jobs:
         run: npm install --registry=https://registry.npmjs.org
 
       - name: Build
-        run: npm run build
+        run: ./node_modules/.bin/vite build
 
       - name: Install Wrangler
         run: npm install -g wrangler --registry=https://registry.npmjs.org
