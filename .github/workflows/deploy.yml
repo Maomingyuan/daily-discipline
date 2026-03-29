@@ -18,10 +18,12 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install --frozen-lockfile
+        env:
+          YARN_REGISTRY: https://registry.npmjs.org
 
       - name: Build
-        run: ./node_modules/.bin/vite build
+        run: yarn build
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy dist --project-name=daily-discipline --branch=main
