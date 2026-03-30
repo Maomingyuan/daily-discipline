@@ -31,5 +31,6 @@
   "auth.hasAccount": "已有账号？",
   "auth.signupSuccess": "注册成功！请查收验证邮件",
   "auth.loginFailed": "登录失败: ",
-  "auth.signupFailed": "注册失败: "
+  "auth.signupFailed": "注册失败: ",
+  "calendar.weekdays": ["日", "一", "二", "三", "四", "五", "六"]
 }

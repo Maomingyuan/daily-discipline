@@ -31,5 +31,6 @@
   "auth.hasAccount": "Already have an account?",
   "auth.signupSuccess": "Sign up successful! Please check your email",
   "auth.loginFailed": "Login failed: ",
-  "auth.signupFailed": "Sign up failed: "
+  "auth.signupFailed": "Sign up failed: ",
+  "calendar.weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 }

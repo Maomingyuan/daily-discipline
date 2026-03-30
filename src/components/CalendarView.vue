@@ -30,6 +30,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, addMonths, subMonths, startOfWeek, endOfWeek } from 'date-fns'
+import i18n from '@/i18n'
 
 const props = defineProps({
   checkins: {
@@ -46,10 +47,10 @@ const emit = defineEmits(['select-date'])
 
 const currentDate = ref(new Date())
 
-const weekdays = ['日', '一', '二', '三', '四', '五', '六']
+const weekdays = computed(() => i18n.t('calendar.weekdays'))
 
 const currentMonth = computed(() => {
-  return format(currentDate.value, 'yyyy年MM月')
+  return format(currentDate.value, i18n.locale === 'zh' ? 'yyyy年MM月' : 'MMM yyyy')
 })
 
 const calendarDays = computed(() => {
