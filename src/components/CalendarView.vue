@@ -47,7 +47,10 @@ const emit = defineEmits(['select-date'])
 
 const currentDate = ref(new Date())
 
-const weekdays = computed(() => i18n.t('calendar.weekdays') || [])
+const weekdays = computed(() => {
+  const days = i18n.t('calendar.weekdays')
+  return Array.isArray(days) ? days : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+})
 
 const currentMonth = computed(() => {
   return format(currentDate.value, i18n.locale === 'zh' ? 'yyyy年MM月' : 'MMM yyyy')
