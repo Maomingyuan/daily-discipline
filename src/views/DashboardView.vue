@@ -1,15 +1,18 @@
 <template>
   <div class="container">
     <header>
-      <div class="logo">自律<span>打卡</span></div>
-      <button v-if="authStore.user" @click="handleLogout" class="logout-btn">退出</button>
-      <button v-else @click="goToLogin" class="logout-btn">登录</button>
+      <div class="logo">{{ $t('app.title') }}<span>{{ $t('app.subtitle') }}</span></div>
+      <div class="header-actions">
+        <LanguageSwitcher />
+        <button v-if="authStore.user" @click="handleLogout" class="logout-btn">{{ $t('button.logout') }}</button>
+        <button v-else @click="goToLogin" class="logout-btn">{{ $t('button.login') }}</button>
+      </div>
     </header>
     
     <div class="card">
-      <h3 class="card-title">{{ isEditing ? '编辑记录' : '打卡记录' }}</h3>
+      <h3 class="card-title">{{ isEditing ? $t('card.title.edit') : $t('card.title.record') }}</h3>
       <div class="date-picker">
-        <label>选择日期：</label>
+        <label>{{ $t('label.selectDate') }}</label>
         <input type="date" v-model="selectedDate" @change="loadSelectedDate" />
       </div>
       <div class="status-row">
@@ -18,47 +21,47 @@
           :class="{ 'active-yes': todayStatus === 'yes' }"
           @click="todayStatus = 'yes'"
         >
-          ✅ 完成自律
+          {{ $t('button.completed') }}
         </button>
         <button 
           class="status-btn"
           :class="{ 'active-no': todayStatus === 'no' }"
           @click="todayStatus = 'no'"
         >
-          ❌ 未完成
+          {{ $t('button.notCompleted') }}
         </button>
       </div>
       <textarea 
         v-model="todayNote" 
-        placeholder="记录今天做了什么..."
+        :placeholder="$t('placeholder.note')"
         rows="4"
       ></textarea>
       <button @click="saveToday" class="save-btn" :disabled="!todayStatus">
-        {{ isEditing ? '更新记录' : '保存记录' }}
+        {{ isEditing ? $t('button.update') : $t('button.save') }}
       </button>
     </div>
     
     <div class="card">
-      <h3 class="card-title">统计数据</h3>
+      <h3 class="card-title">{{ $t('card.title.stats') }}</h3>
       <div class="stats">
         <div class="stat-item">
           <div class="stat-value">{{ stats.total }}</div>
-          <div class="stat-label">累计打卡</div>
+          <div class="stat-label">{{ $t('stats.total') }}</div>
         </div>
         <div class="stat-item">
           <div class="stat-value">{{ stats.completed }}</div>
-          <div class="stat-label">完成次数</div>
+          <div class="stat-label">{{ $t('stats.completed') }}</div>
         </div>
       </div>
     </div>
     
     <div class="card">
-      <h3 class="card-title">日历视图</h3>
+      <h3 class="card-title">{{ $t('card.title.calendar') }}</h3>
       <CalendarView :checkins="checkinStore.checkins" :selectedDate="selectedDate" @select-date="onDateSelect" />
     </div>
     
     <div class="card" v-if="checkinStore.checkins.length > 0">
-      <h3 class="card-title">历史记录</h3>
+      <h3 class="card-title">{{ $t('card.title.history') }}</h3>
       <div class="history-list">
         <div 
           v-for="item in checkinStore.checkins.slice(0, 10)" 
@@ -71,7 +74,7 @@
               <span :class="item.status === 'yes' ? 'status-yes' : 'status-no'">
                 {{ item.status === 'yes' ? '✅' : '❌' }}
               </span>
-              <button @click="editRecord(item)" class="edit-btn">编辑</button>
+              <button @click="editRecord(item)" class="edit-btn">{{ $t('button.edit') }}</button>
             </div>
           </div>
           <div class="history-note" v-if="item.note">{{ item.note }}</div>
@@ -90,6 +93,8 @@ import { useCheckinStore } from '@/stores/checkin'
 import { format } from 'date-fns'
 import CalendarView from '@/components/CalendarView.vue'
 import Toast from '@/components/Toast.vue'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import i18n from '@/i18n'
 
 const authStore = useAuthStore()
 const checkinStore = useCheckinStore()
@@ -112,7 +117,7 @@ const saveToday = async () => {
   
   // 未登录时提示并跳转到登录页
   if (!authStore.user) {
-    toastMessage.value = '请先登录后再保存记录'
+    toastMessage.value = i18n.t('toast.loginRequired')
     toastType.value = 'error'
     setTimeout(() => {
       window.location.href = '/auth'
@@ -127,11 +132,11 @@ const saveToday = async () => {
   )
   
   if (!error) {
-    toastMessage.value = isEditing.value ? '更新成功！' : '保存成功！'
+    toastMessage.value = isEditing.value ? i18n.t('toast.updateSuccess') : i18n.t('toast.saveSuccess')
     toastType.value = 'success'
     isEditing.value = false
   } else {
-    toastMessage.value = '保存失败: ' + error.message
+    toastMessage.value = i18n.t('toast.saveFailed') + error.message
     toastType.value = 'error'
   }
 }
@@ -205,6 +210,12 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .logo {
