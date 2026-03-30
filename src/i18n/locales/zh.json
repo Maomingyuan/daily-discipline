@@ -20,5 +20,16 @@
   "toast.loginRequired": "请先登录后再保存记录",
   "toast.saveSuccess": "保存成功！",
   "toast.updateSuccess": "更新成功！",
-  "toast.saveFailed": "保存失败: "
+  "toast.saveFailed": "保存失败: ",
+  "auth.email": "邮箱",
+  "auth.password": "密码",
+  "auth.loginButton": "登录",
+  "auth.signupButton": "注册",
+  "auth.loggingIn": "登录中...",
+  "auth.signingUp": "注册中...",
+  "auth.noAccount": "没有账号？",
+  "auth.hasAccount": "已有账号？",
+  "auth.signupSuccess": "注册成功！请查收验证邮件",
+  "auth.loginFailed": "登录失败: ",
+  "auth.signupFailed": "注册失败: "
 }

@@ -20,5 +20,16 @@
   "toast.loginRequired": "Please login first",
   "toast.saveSuccess": "Saved successfully!",
   "toast.updateSuccess": "Updated successfully!",
-  "toast.saveFailed": "Save failed: "
+  "toast.saveFailed": "Save failed: ",
+  "auth.email": "Email",
+  "auth.password": "Password",
+  "auth.loginButton": "Login",
+  "auth.signupButton": "Sign Up",
+  "auth.loggingIn": "Logging in...",
+  "auth.signingUp": "Signing up...",
+  "auth.noAccount": "No account?",
+  "auth.hasAccount": "Already have an account?",
+  "auth.signupSuccess": "Sign up successful! Please check your email",
+  "auth.loginFailed": "Login failed: ",
+  "auth.signupFailed": "Sign up failed: "
 }

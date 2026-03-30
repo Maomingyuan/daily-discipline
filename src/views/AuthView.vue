@@ -1,22 +1,25 @@
 <template>
   <div class="auth-container">
     <div class="auth-card">
-      <h1>自律<span>打卡</span></h1>
+      <div class="auth-header">
+        <h1>{{ $t('app.title') }}<span>{{ $t('app.subtitle') }}</span></h1>
+        <LanguageSwitcher />
+      </div>
       <div v-if="mode === 'login'">
-        <input v-model="email" type="email" placeholder="邮箱" />
-        <input v-model="password" type="password" placeholder="密码" />
+        <input v-model="email" type="email" :placeholder="$t('auth.email')" />
+        <input v-model="password" type="password" :placeholder="$t('auth.password')" />
         <button @click="handleLogin" :disabled="loading">
-          {{ loading ? '登录中...' : '登录' }}
+          {{ loading ? $t('auth.loggingIn') : $t('auth.loginButton') }}
         </button>
-        <p>没有账号？<a @click="mode = 'signup'">注册</a></p>
+        <p>{{ $t('auth.noAccount') }}<a @click="mode = 'signup'">{{ $t('auth.signupButton') }}</a></p>
       </div>
       <div v-else>
-        <input v-model="email" type="email" placeholder="邮箱" />
-        <input v-model="password" type="password" placeholder="密码" />
+        <input v-model="email" type="email" :placeholder="$t('auth.email')" />
+        <input v-model="password" type="password" :placeholder="$t('auth.password')" />
         <button @click="handleSignup" :disabled="loading">
-          {{ loading ? '注册中...' : '注册' }}
+          {{ loading ? $t('auth.signingUp') : $t('auth.signupButton') }}
         </button>
-        <p>已有账号？<a @click="mode = 'login'">登录</a></p>
+        <p>{{ $t('auth.hasAccount') }}<a @click="mode = 'login'">{{ $t('auth.loginButton') }}</a></p>
       </div>
     </div>
   </div>
@@ -26,6 +29,8 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import i18n from '@/i18n'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -42,7 +47,7 @@ const handleLogin = async () => {
   if (!error) {
     router.push('/')
   } else {
-    alert('登录失败: ' + error.message)
+    alert(i18n.t('auth.loginFailed') + error.message)
   }
 }
 
@@ -51,9 +56,9 @@ const handleSignup = async () => {
   const { error } = await authStore.signUp(email.value, password.value)
   loading.value = false
   if (!error) {
-    alert('注册成功！请查收验证邮件')
+    alert(i18n.t('auth.signupSuccess'))
   } else {
-    alert('注册失败: ' + error.message)
+    alert(i18n.t('auth.signupFailed') + error.message)
   }
 }
 </script>
@@ -76,10 +81,16 @@ const handleSignup = async () => {
   max-width: 400px;
 }
 
-h1 {
-  text-align: center;
+.auth-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
+}
+
+h1 {
   font-size: 28px;
+  margin: 0;
 }
 
 h1 span {
