@@ -8,7 +8,12 @@ const i18n = reactive({
   locale: localStorage.getItem('locale') || 'en',
   messages,
   t(key) {
-    return this.messages[this.locale][key] || key
+    const keys = key.split('.')
+    let value = this.messages[this.locale]
+    for (const k of keys) {
+      value = value?.[k]
+    }
+    return value !== undefined ? value : key
   },
   setLocale(locale) {
     this.locale = locale
