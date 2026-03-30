@@ -1,0 +1,11 @@
+{
+  "app.title": "Check-in",
+  "nav.home": "Home",
+  "nav.history": "History",
+  "nav.settings": "Settings",
+  "checkin.button": "Check In",
+  "checkin.success": "Checked in successfully!",
+  "history.title": "Check-in History",
+  "settings.language": "Language",
+  "settings.logout": "Logout"
+}
