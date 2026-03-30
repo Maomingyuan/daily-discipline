@@ -1,36 +1,56 @@
 {
-  "app.title": "Discipline",
-  "app.subtitle": "Check-in",
-  "button.logout": "Logout",
-  "button.login": "Login",
-  "card.title.record": "Check-in Record",
-  "card.title.edit": "Edit Record",
-  "label.selectDate": "Select Date:",
-  "button.completed": "✅ Completed",
-  "button.notCompleted": "❌ Not Completed",
-  "placeholder.note": "What did you do today...",
-  "button.save": "Save Record",
-  "button.update": "Update Record",
-  "card.title.stats": "Statistics",
-  "stats.total": "Total Check-ins",
-  "stats.completed": "Completed",
-  "card.title.calendar": "Calendar View",
-  "card.title.history": "History",
-  "button.edit": "Edit",
-  "toast.loginRequired": "Please login first",
-  "toast.saveSuccess": "Saved successfully!",
-  "toast.updateSuccess": "Updated successfully!",
-  "toast.saveFailed": "Save failed: ",
-  "auth.email": "Email",
-  "auth.password": "Password",
-  "auth.loginButton": "Login",
-  "auth.signupButton": "Sign Up",
-  "auth.loggingIn": "Logging in...",
-  "auth.signingUp": "Signing up...",
-  "auth.noAccount": "No account?",
-  "auth.hasAccount": "Already have an account?",
-  "auth.signupSuccess": "Sign up successful! Please check your email",
-  "auth.loginFailed": "Login failed: ",
-  "auth.signupFailed": "Sign up failed: ",
-  "calendar.weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  "app": {
+    "title": "Discipline",
+    "subtitle": "Check-in"
+  },
+  "button": {
+    "logout": "Logout",
+    "login": "Login",
+    "completed": "✅ Completed",
+    "notCompleted": "❌ Not Completed",
+    "save": "Save Record",
+    "update": "Update Record",
+    "edit": "Edit"
+  },
+  "card": {
+    "title": {
+      "record": "Check-in Record",
+      "edit": "Edit Record",
+      "stats": "Statistics",
+      "calendar": "Calendar View",
+      "history": "History"
+    }
+  },
+  "label": {
+    "selectDate": "Select Date:"
+  },
+  "placeholder": {
+    "note": "What did you do today..."
+  },
+  "stats": {
+    "total": "Total Check-ins",
+    "completed": "Completed"
+  },
+  "toast": {
+    "loginRequired": "Please login first",
+    "saveSuccess": "Saved successfully!",
+    "updateSuccess": "Updated successfully!",
+    "saveFailed": "Save failed: "
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "signupButton": "Sign Up",
+    "loggingIn": "Logging in...",
+    "signingUp": "Signing up...",
+    "noAccount": "No account?",
+    "hasAccount": "Already have an account?",
+    "signupSuccess": "Sign up successful! Please check your email",
+    "loginFailed": "Login failed: ",
+    "signupFailed": "Sign up failed: "
+  },
+  "calendar": {
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  }
 }

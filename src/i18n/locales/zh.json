@@ -1,36 +1,56 @@
 {
-  "app.title": "自律",
-  "app.subtitle": "打卡",
-  "button.logout": "退出",
-  "button.login": "登录",
-  "card.title.record": "打卡记录",
-  "card.title.edit": "编辑记录",
-  "label.selectDate": "选择日期：",
-  "button.completed": "✅ 完成自律",
-  "button.notCompleted": "❌ 未完成",
-  "placeholder.note": "记录今天做了什么...",
-  "button.save": "保存记录",
-  "button.update": "更新记录",
-  "card.title.stats": "统计数据",
-  "stats.total": "累计打卡",
-  "stats.completed": "完成次数",
-  "card.title.calendar": "日历视图",
-  "card.title.history": "历史记录",
-  "button.edit": "编辑",
-  "toast.loginRequired": "请先登录后再保存记录",
-  "toast.saveSuccess": "保存成功！",
-  "toast.updateSuccess": "更新成功！",
-  "toast.saveFailed": "保存失败: ",
-  "auth.email": "邮箱",
-  "auth.password": "密码",
-  "auth.loginButton": "登录",
-  "auth.signupButton": "注册",
-  "auth.loggingIn": "登录中...",
-  "auth.signingUp": "注册中...",
-  "auth.noAccount": "没有账号？",
-  "auth.hasAccount": "已有账号？",
-  "auth.signupSuccess": "注册成功！请查收验证邮件",
-  "auth.loginFailed": "登录失败: ",
-  "auth.signupFailed": "注册失败: ",
-  "calendar.weekdays": ["日", "一", "二", "三", "四", "五", "六"]
+  "app": {
+    "title": "自律",
+    "subtitle": "打卡"
+  },
+  "button": {
+    "logout": "退出",
+    "login": "登录",
+    "completed": "✅ 完成自律",
+    "notCompleted": "❌ 未完成",
+    "save": "保存记录",
+    "update": "更新记录",
+    "edit": "编辑"
+  },
+  "card": {
+    "title": {
+      "record": "打卡记录",
+      "edit": "编辑记录",
+      "stats": "统计数据",
+      "calendar": "日历视图",
+      "history": "历史记录"
+    }
+  },
+  "label": {
+    "selectDate": "选择日期："
+  },
+  "placeholder": {
+    "note": "记录今天做了什么..."
+  },
+  "stats": {
+    "total": "累计打卡",
+    "completed": "完成次数"
+  },
+  "toast": {
+    "loginRequired": "请先登录后再保存记录",
+    "saveSuccess": "保存成功！",
+    "updateSuccess": "更新成功！",
+    "saveFailed": "保存失败: "
+  },
+  "auth": {
+    "email": "邮箱",
+    "password": "密码",
+    "loginButton": "登录",
+    "signupButton": "注册",
+    "loggingIn": "登录中...",
+    "signingUp": "注册中...",
+    "noAccount": "没有账号？",
+    "hasAccount": "已有账号？",
+    "signupSuccess": "注册成功！请查收验证邮件",
+    "loginFailed": "登录失败: ",
+    "signupFailed": "注册失败: "
+  },
+  "calendar": {
+    "weekdays": ["日", "一", "二", "三", "四", "五", "六"]
+  }
 }
