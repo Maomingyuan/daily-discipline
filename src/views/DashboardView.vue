@@ -225,23 +225,25 @@ header {
 .user-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background: #f3f4f6;
-  border-radius: 20px;
+  gap: 10px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 24px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .avatar {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid white;
 }
 
 .user-name {
   font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+  font-weight: 600;
+  color: white;
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
