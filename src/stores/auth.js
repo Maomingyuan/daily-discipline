@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: 'https://dailycheck-in.xyz/'
         }
       })
       this.loading = false
