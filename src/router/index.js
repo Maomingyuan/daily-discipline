@@ -25,6 +25,16 @@ router.beforeEach(async (to, from, next) => {
     await authStore.init()
   }
   
+  // OAuth 回调处理：如果 URL 有 access_token，等待 Supabase 处理后跳转
+  if (to.hash.includes('access_token')) {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    await authStore.init()
+    if (authStore.user) {
+      next('/')
+      return
+    }
+  }
+  
   if (to.meta.requiresAuth && !authStore.user) {
     next('/auth')
   } else if (to.path === '/auth' && authStore.user) {
