@@ -3,6 +3,10 @@
     <header>
       <div class="logo">{{ $t('app.title') }}<span>{{ $t('app.subtitle') }}</span></div>
       <div class="header-actions">
+        <div v-if="authStore.user" class="user-info">
+          <img v-if="authStore.user.user_metadata?.avatar_url" :src="authStore.user.user_metadata.avatar_url" class="avatar" />
+          <span class="user-name">{{ authStore.user.user_metadata?.full_name || authStore.user.email }}</span>
+        </div>
         <LanguageSwitcher />
         <button v-if="authStore.user" @click="handleLogout" class="logout-btn">{{ $t('button.logout') }}</button>
         <button v-else @click="goToLogin" class="logout-btn">{{ $t('button.login') }}</button>
@@ -216,6 +220,32 @@ header {
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border-radius: 20px;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .logo {
