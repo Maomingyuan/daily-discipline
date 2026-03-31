@@ -36,10 +36,11 @@ export const useAuthStore = defineStore('auth', {
     
     async signInWithGoogle() {
       this.loading = true
+      const redirectUrl = import.meta.env.VITE_APP_URL || window.location.origin
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'https://dailycheck-in.xyz/'
+          redirectTo: `${redirectUrl}/`
         }
       })
       this.loading = false
