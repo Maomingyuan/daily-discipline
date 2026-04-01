@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCheckinStore } from '@/stores/checkin'
@@ -140,6 +140,14 @@ const handleUpgrade = (plan) => {
   alert(`选择了 ${plan} 套餐，支付功能开发中...`)
   showUpgradeModal.value = false
 }
+
+onMounted(async () => {
+  await authStore.init()
+  
+  if (authStore.user) {
+    await checkinStore.fetchCheckins()
+  }
+})
 </script>
 
 <style scoped>
