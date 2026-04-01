@@ -5,7 +5,9 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
     session: null,
-    loading: false
+    loading: false,
+    isPro: false,
+    proExpireAt: null
   }),
   
   actions: {
@@ -14,10 +16,32 @@ export const useAuthStore = defineStore('auth', {
       this.session = session
       this.user = session?.user ?? null
       
+      // 检查Pro状态
+      if (this.user) {
+        await this.checkProStatus()
+      }
+      
       supabase.auth.onAuthStateChange((event, session) => {
         this.session = session
         this.user = session?.user ?? null
+        if (this.user) {
+          this.checkProStatus()
+        }
       })
+    },
+    
+    async checkProStatus() {
+      // 从user_metadata获取Pro状态
+      this.isPro = this.user?.user_metadata?.is_pro || false
+      this.proExpireAt = this.user?.user_metadata?.pro_expire_at
+      
+      // 检查是否过期
+      if (this.isPro && this.proExpireAt) {
+        const expireDate = new Date(this.proExpireAt)
+        if (expireDate < new Date()) {
+          this.isPro = false
+        }
+      }
     },
     
     async signUp(email, password) {

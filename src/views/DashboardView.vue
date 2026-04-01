@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <header>
-      <div class="logo">{{ $t('app.title') }}<span>{{ $t('app.subtitle') }}</span></div>
+      <div class="logo">
+        {{ $t('app.title') }}<span>{{ $t('app.subtitle') }}</span>
+        <ProBadge v-if="authStore.isPro" />
+      </div>
       <div class="header-actions">
         <div v-if="authStore.user" class="user-info">
           <img v-if="authStore.user.user_metadata?.avatar_url" :src="authStore.user.user_metadata.avatar_url" class="avatar" />
@@ -66,9 +69,17 @@
     
     <div class="card" v-if="checkinStore.checkins.length > 0">
       <h3 class="card-title">{{ $t('card.title.history') }}</h3>
+      
+      <div v-if="hasHiddenRecords" class="upgrade-hint">
+        <p>📦 历史记录仅显示最近30天</p>
+        <button @click="showUpgradeModal = true" class="upgrade-btn-small">
+          升级Pro查看全部
+        </button>
+      </div>
+      
       <div class="history-list">
         <div 
-          v-for="item in checkinStore.checkins.slice(0, 10)" 
+          v-for="item in visibleCheckins.slice(0, 10)" 
           :key="item.id"
           class="history-item"
         >
@@ -87,6 +98,11 @@
     </div>
     
     <Toast :message="toastMessage" :type="toastType" />
+    <UpgradeModal 
+      :visible="showUpgradeModal"
+      @close="showUpgradeModal = false"
+      @upgrade="handleUpgrade"
+    />
   </div>
 </template>
 
@@ -98,6 +114,8 @@ import { format } from 'date-fns'
 import CalendarView from '@/components/CalendarView.vue'
 import Toast from '@/components/Toast.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+import UpgradeModal from '@/components/UpgradeModal.vue'
+import ProBadge from '@/components/ProBadge.vue'
 import i18n from '@/i18n'
 
 const authStore = useAuthStore()
@@ -109,11 +127,27 @@ const toastMessage = ref('')
 const toastType = ref('success')
 const selectedDate = ref(format(new Date(), 'yyyy-MM-dd'))
 const isEditing = ref(false)
+const showUpgradeModal = ref(false)
 
 const stats = computed(() => {
   const total = checkinStore.checkins.length
   const completed = checkinStore.checkins.filter(c => c.status === 'yes').length
   return { total, completed }
+})
+
+const visibleCheckins = computed(() => {
+  if (authStore.isPro) {
+    return checkinStore.checkins
+  }
+  
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  
+  return checkinStore.checkins.filter(c => new Date(c.date) >= thirtyDaysAgo)
+})
+
+const hasHiddenRecords = computed(() => {
+  return !authStore.isPro && checkinStore.checkins.length > visibleCheckins.value.length
 })
 
 const saveToday = async () => {
@@ -183,6 +217,11 @@ const handleLogout = async () => {
 
 const formatDate = (dateStr) => {
   return format(new Date(dateStr), 'yyyy年MM月dd日')
+}
+
+const handleUpgrade = (plan) => {
+  alert(`选择了 ${plan} 套餐，支付功能开发中...`)
+  showUpgradeModal.value = false
 }
 
 onMounted(async () => {
@@ -434,5 +473,34 @@ textarea {
 .history-note {
   font-size: 14px;
   color: #6b7280;
+}
+
+.upgrade-hint {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.upgrade-hint p {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.upgrade-btn-small {
+  padding: 8px 20px;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upgrade-btn-small:hover {
+  background: #f0f4ff;
 }
 </style>
