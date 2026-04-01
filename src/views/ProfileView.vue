@@ -32,6 +32,7 @@
         <div class="feature">✅ 导出数据</div>
         <div class="feature">✅ 多设备同步</div>
       </div>
+      <div class="pro-price">仅需 $2.9/月</div>
       <button @click="showUpgradeModal = true" class="upgrade-btn">
         立即升级
       </button>
@@ -250,11 +251,18 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .feature {
   font-size: 14px;
+}
+
+.pro-price {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
 }
 
 .upgrade-btn {

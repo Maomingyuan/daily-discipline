@@ -1,0 +1,30 @@
+/* 在 DashboardView.vue 的 <style scoped> 中添加以下样式 */
+
+.upgrade-hint {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.upgrade-hint p {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.upgrade-btn-small {
+  padding: 8px 20px;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upgrade-btn-small:hover {
+  background: #f0f4ff;
+}

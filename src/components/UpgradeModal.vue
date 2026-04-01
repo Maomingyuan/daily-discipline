@@ -6,6 +6,40 @@
       <h2>升级Pro会员</h2>
       <p class="subtitle">解锁完整功能，更好的数据体验</p>
       
+      <!-- 功能对比表 -->
+      <div class="comparison-table">
+        <div class="comparison-header">
+          <div class="feature-col">功能</div>
+          <div class="free-col">免费版</div>
+          <div class="pro-col">Pro版</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">打卡记录</div>
+          <div class="free-col">✅</div>
+          <div class="pro-col">✅</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">历史记录</div>
+          <div class="free-col">仅30天</div>
+          <div class="pro-col">✅ 无限</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">数据分析</div>
+          <div class="free-col">❌</div>
+          <div class="pro-col">✅</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">数据导出</div>
+          <div class="free-col">❌</div>
+          <div class="pro-col">✅</div>
+        </div>
+        <div class="comparison-row">
+          <div class="feature-col">多设备同步</div>
+          <div class="free-col">❌</div>
+          <div class="pro-col">✅</div>
+        </div>
+      </div>
+      
       <div class="plans">
         <div 
           class="plan-card"
@@ -13,7 +47,7 @@
           @click="selectedPlan = 'monthly'"
         >
           <div class="plan-name">月付</div>
-          <div class="plan-price">¥9.9<span>/月</span></div>
+          <div class="plan-price">$2.9<span>/月</span></div>
         </div>
         
         <div 
@@ -23,8 +57,8 @@
         >
           <div class="popular-badge">最划算</div>
           <div class="plan-name">年付</div>
-          <div class="plan-price">¥88<span>/年</span></div>
-          <div class="plan-save">节省¥30</div>
+          <div class="plan-price">$29<span>/年</span></div>
+          <div class="plan-save">节省$6</div>
         </div>
         
         <div 
@@ -33,15 +67,8 @@
           @click="selectedPlan = 'lifetime'"
         >
           <div class="plan-name">终身</div>
-          <div class="plan-price">¥199</div>
+          <div class="plan-price">$69</div>
         </div>
-      </div>
-      
-      <div class="features">
-        <div class="feature">✅ 无限历史记录</div>
-        <div class="feature">✅ 数据趋势分析</div>
-        <div class="feature">✅ 导出数据</div>
-        <div class="feature">✅ 多设备同步</div>
       </div>
       
       <button @click="handleUpgrade" class="upgrade-btn">
@@ -110,6 +137,46 @@ h2 {
   margin: 0 0 24px 0;
 }
 
+.comparison-table {
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comparison-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  background: #f9fafb;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.feature-col, .free-col, .pro-col {
+  padding: 12px;
+  text-align: center;
+}
+
+.feature-col {
+  text-align: left;
+  font-weight: 500;
+}
+
+.pro-col {
+  color: #667eea;
+  font-weight: 600;
+}
+
 .plans {
   display: flex;
   gap: 12px;
@@ -174,18 +241,6 @@ h2 {
   font-size: 12px;
   color: #16a34a;
   margin-top: 4px;
-}
-
-.features {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.feature {
-  font-size: 14px;
-  color: #374151;
 }
 
 .upgrade-btn {
