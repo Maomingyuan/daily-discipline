@@ -9,6 +9,11 @@ const routes = [
   {
     path: '/',
     component: () => import('@/views/DashboardView.vue')
+  },
+  {
+    path: '/profile',
+    component: () => import('@/views/ProfileView.vue'),
+    meta: { requiresAuth: true }
   }
 ]
 
