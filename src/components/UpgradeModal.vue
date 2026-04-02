@@ -46,8 +46,12 @@
           <span>加载支付...</span>
         </div>
 
-        <!-- PayPal 按钮容器，key 变化时强制重新渲染 -->
-        <div v-show="!sdkLoading && !paymentSuccess && !paymentError" :id="paypalContainerId" class="paypal-container"></div>
+        <!-- PayPal 按钮容器：始终保持在 DOM 中，用 visibility 控制显隐 -->
+        <div
+          :id="paypalContainerId"
+          class="paypal-container"
+          :style="{ visibility: (!sdkLoading && !paymentSuccess && !paymentError) ? 'visible' : 'hidden', minHeight: '50px' }"
+        ></div>
 
         <!-- 支付成功 -->
         <div v-if="paymentSuccess" class="payment-success">
@@ -96,13 +100,19 @@ const features = [
 ]
 
 async function mountPaypalButtons() {
-  // 清除旧按钮
+  // 先销毁旧按钮
   if (currentButtons) {
-    currentButtons.close()
+    try { currentButtons.close() } catch (_) {}
     currentButtons = null
   }
+
+  // 等待 DOM 更新，确保容器可见
+  await nextTick()
+  await nextTick() // 双 tick 确保 visibility 已更新
+
   const container = document.getElementById(paypalContainerId)
-  if (container) container.innerHTML = ''
+  if (!container) return
+  container.innerHTML = '' // 清空旧内容
 
   sdkLoading.value = true
   paymentError.value = ''
@@ -159,11 +169,13 @@ watch(
     if (val) {
       paymentSuccess.value = false
       paymentError.value = ''
+      // 等弹窗 DOM 完全渲染（包括 transition）
       await nextTick()
+      await new Promise(r => setTimeout(r, 50))
       await mountPaypalButtons()
     } else {
       if (currentButtons) {
-        currentButtons.close()
+        try { currentButtons.close() } catch (_) {}
         currentButtons = null
       }
     }
