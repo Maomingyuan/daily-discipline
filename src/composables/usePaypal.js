@@ -3,7 +3,7 @@
  * 动态加载 PayPal SDK，避免污染全局和 SSR 问题
  */
 
-const PAYPAL_CLIENT_ID = 'AU7_Yct2Fu4XAqmYjcwGTzwCOylmzy-O7KjRf7ciFfAtmVGqhXObDpWguacbCNcB9EQR4gS49Rs1voV3'
+const PAYPAL_CLIENT_ID = 'AbjsEbKGtbyxtSicxbNdeiDPcTCWYjRfAUkfgrxoYlXg32x4O0zIA_H7oVt1ekqV8-nvKVaBc22Xja5o'
 const CURRENCY = 'USD'
 
 // 套餐配置
