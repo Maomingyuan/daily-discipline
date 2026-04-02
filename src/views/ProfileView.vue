@@ -6,12 +6,12 @@
     </header>
 
     <!-- 用户信息卡片 -->
-    <div class="card user-card">
+    <div class="card user-card" :class="{ 'user-card-pro': authStore.isPro }">
       <div class="user-avatar">
-        <img v-if="authStore.user?.user_metadata?.avatar_url" 
-             :src="authStore.user.user_metadata.avatar_url" 
-             class="avatar" />
-        <div v-else class="avatar-placeholder">{{ userInitial }}</div>
+        <img v-if="authStore.user?.user_metadata?.avatar_url"
+             :src="authStore.user.user_metadata.avatar_url"
+             class="avatar" :class="{ 'avatar-pro': authStore.isPro }" />
+        <div v-else class="avatar-placeholder" :class="{ 'avatar-placeholder-pro': authStore.isPro }">{{ userInitial }}</div>
       </div>
       <div class="user-info">
         <h2>{{ authStore.user?.user_metadata?.full_name || authStore.user?.email }}</h2>
@@ -39,9 +39,33 @@
     </div>
 
     <!-- Pro会员信息 -->
-    <div class="card pro-info" v-else>
-      <h3>Pro会员</h3>
-      <p>到期时间：{{ formatExpireDate }}</p>
+    <div class="card pro-member-card" v-else>
+      <div class="pro-member-bg"></div>
+      <div class="pro-member-inner">
+        <div class="pro-member-top">
+          <div class="pro-crown">👑</div>
+          <div class="pro-member-title">
+            <span class="pro-label">PRO 会员</span>
+            <span class="pro-slogan">尊享全部特权</span>
+          </div>
+        </div>
+
+        <div class="pro-perks">
+          <div class="perk-item">✦ 无限历史记录</div>
+          <div class="perk-item">✦ 数据趋势分析</div>
+          <div class="perk-item">✦ 导出数据</div>
+          <div class="perk-item">✦ 多设备同步</div>
+        </div>
+
+        <div class="pro-expire" v-if="authStore.proExpireAt">
+          <span class="expire-label">有效期至</span>
+          <span class="expire-date">{{ formatExpireDate }}</span>
+        </div>
+        <div class="pro-expire" v-else>
+          <span class="expire-label">会员类型</span>
+          <span class="expire-date">终身会员 · 永久有效</span>
+        </div>
+      </div>
     </div>
 
     <!-- 历史记录 -->
@@ -360,5 +384,151 @@ h1 {
   font-size: 15px;
   cursor: pointer;
   font-weight: 600;
+}
+
+/* ===== Pro 用户信息卡片 ===== */
+.user-card-pro {
+  border: 1.5px solid #f6d365;
+  box-shadow: 0 0 0 3px rgba(246, 211, 101, 0.15), 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.avatar-pro,
+.avatar-placeholder-pro {
+  box-shadow: 0 0 0 3px #f6d365, 0 0 12px rgba(246, 211, 101, 0.5);
+}
+
+/* ===== Pro 会员卡片 ===== */
+.pro-member-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: 0 4px 24px rgba(200, 130, 20, 0.25);
+}
+
+.pro-member-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d1b00 40%, #1a1a2e 100%);
+  z-index: 0;
+}
+
+/* 金色光晕装饰 */
+.pro-member-bg::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(246,211,101,0.25) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.pro-member-bg::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(232,160,32,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.pro-member-inner {
+  position: relative;
+  z-index: 1;
+  padding: 24px 20px;
+}
+
+.pro-member-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.pro-crown {
+  font-size: 40px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(246,211,101,0.8));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+.pro-member-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pro-label {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #f6d365 0%, #ffd700 50%, #e8a020 100%);
+  background-size: 200% 200%;
+  animation: gold-shimmer 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pro-slogan {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1px;
+}
+
+@keyframes gold-shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.pro-perks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.perk-item {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(246,211,101,0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pro-expire {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(246,211,101,0.1);
+  border: 1px solid rgba(246,211,101,0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+}
+
+.expire-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+
+.expire-date {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f6d365;
 }
 </style>
