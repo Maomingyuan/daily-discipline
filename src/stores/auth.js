@@ -73,6 +73,27 @@ export const useAuthStore = defineStore('auth', {
     
     async signOut() {
       await supabase.auth.signOut()
+    },
+
+    /**
+     * 支付成功后将用户升级为 Pro
+     * @param {string} expireAt - ISO 日期字符串，终身会员传 null
+     */
+    async upgradeToPro(expireAt) {
+      const { data, error } = await supabase.auth.updateUser({
+        data: {
+          is_pro: true,
+          pro_expire_at: expireAt
+        }
+      })
+
+      if (error) return { error }
+
+      // 同步本地状态
+      this.user = data.user
+      this.isPro = true
+      this.proExpireAt = expireAt
+      return { error: null }
     }
   }
 })

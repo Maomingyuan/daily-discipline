@@ -77,10 +77,10 @@
       <button @click="handleLogout" class="logout-btn-full">退出登录</button>
     </div>
 
-    <UpgradeModal 
+    <UpgradeModal
       :visible="showUpgradeModal"
       @close="showUpgradeModal = false"
-      @upgrade="handleUpgrade"
+      @upgraded="handleUpgraded"
     />
   </div>
 </template>
@@ -137,9 +137,9 @@ const handleLogout = async () => {
   router.push('/auth')
 }
 
-const handleUpgrade = (plan) => {
-  alert(`选择了 ${plan} 套餐，支付功能开发中...`)
+const handleUpgraded = () => {
   showUpgradeModal.value = false
+  // Pro 状态已由 auth store 更新，页面响应式自动刷新
 }
 
 onMounted(async () => {
