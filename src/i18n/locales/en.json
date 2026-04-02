@@ -52,5 +52,48 @@
   },
   "calendar": {
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "profile": {
+    "title": "Profile",
+    "back": "← Back",
+    "upgrade": {
+      "title": "Upgrade to Pro",
+      "subtitle": "Unlock all features for a better experience",
+      "feature1": "✅ Unlimited history",
+      "feature2": "✅ Data analytics",
+      "feature3": "✅ Export data",
+      "feature4": "✅ Multi-device sync",
+      "price": "Only $2.9/month",
+      "btn": "Upgrade Now",
+      "hint": "📦 History limited to last 30 days",
+      "hintBtn": "Upgrade Pro to see all"
+    },
+    "pro": {
+      "badge": "PRO Member",
+      "slogan": "Enjoy all privileges",
+      "perk1": "✦ Unlimited history",
+      "perk2": "✦ Data analytics",
+      "perk3": "✦ Export data",
+      "perk4": "✦ Multi-device sync",
+      "expireLabel": "Valid until",
+      "lifetimeLabel": "Membership type",
+      "lifetimeValue": "Lifetime · Never expires"
+    },
+    "history": {
+      "title": "Check-in History",
+      "statusYes": "✅",
+      "statusNo": "❌"
+    },
+    "export": {
+      "title": "Export Data",
+      "desc": "Export all check-in records, total {count}",
+      "csvBtn": "Export CSV",
+      "csvTip": "Open with Excel",
+      "jsonBtn": "Export JSON",
+      "jsonTip": "For developers / backup",
+      "success": "✅ Export successful, check your downloads"
+    },
+    "logout": "Sign Out",
+    "secureHint": "🔒 Payments processed securely by PayPal"
   }
 }

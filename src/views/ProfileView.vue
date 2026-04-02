@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <header>
-      <button @click="goBack" class="back-btn">← 返回</button>
-      <h1>个人中心</h1>
+      <button @click="goBack" class="back-btn">{{ $t('profile.back') }}</button>
+      <h1>{{ $t('profile.title') }}</h1>
     </header>
 
     <!-- 用户信息卡片 -->
@@ -20,75 +20,75 @@
       <ProBadge v-if="authStore.isPro" />
     </div>
 
-    <!-- Pro会员卡片 -->
+    <!-- Pro会员卡片（未购买） -->
     <div class="card pro-card" v-if="!authStore.isPro">
       <div class="pro-header">
-        <h3>升级Pro会员</h3>
-        <p>解锁完整功能，更好的数据体验</p>
+        <h3>{{ $t('profile.upgrade.title') }}</h3>
+        <p>{{ $t('profile.upgrade.subtitle') }}</p>
       </div>
       <div class="pro-features">
-        <div class="feature">✅ 无限历史记录</div>
-        <div class="feature">✅ 数据趋势分析</div>
-        <div class="feature">✅ 导出数据</div>
-        <div class="feature">✅ 多设备同步</div>
+        <div class="feature">{{ $t('profile.upgrade.feature1') }}</div>
+        <div class="feature">{{ $t('profile.upgrade.feature2') }}</div>
+        <div class="feature">{{ $t('profile.upgrade.feature3') }}</div>
+        <div class="feature">{{ $t('profile.upgrade.feature4') }}</div>
       </div>
-      <div class="pro-price">仅需 $2.9/月</div>
+      <div class="pro-price">{{ $t('profile.upgrade.price') }}</div>
       <button @click="showUpgradeModal = true" class="upgrade-btn">
-        立即升级
+        {{ $t('profile.upgrade.btn') }}
       </button>
     </div>
 
-    <!-- Pro会员信息 -->
+    <!-- Pro会员信息（已购买） -->
     <div class="card pro-member-card" v-else>
       <div class="pro-member-bg"></div>
       <div class="pro-member-inner">
         <div class="pro-member-top">
           <div class="pro-crown">👑</div>
           <div class="pro-member-title">
-            <span class="pro-label">PRO 会员</span>
-            <span class="pro-slogan">尊享全部特权</span>
+            <span class="pro-label">{{ $t('profile.pro.badge') }}</span>
+            <span class="pro-slogan">{{ $t('profile.pro.slogan') }}</span>
           </div>
         </div>
 
         <div class="pro-perks">
-          <div class="perk-item">✦ 无限历史记录</div>
-          <div class="perk-item">✦ 数据趋势分析</div>
-          <div class="perk-item">✦ 导出数据</div>
-          <div class="perk-item">✦ 多设备同步</div>
+          <div class="perk-item">{{ $t('profile.pro.perk1') }}</div>
+          <div class="perk-item">{{ $t('profile.pro.perk2') }}</div>
+          <div class="perk-item">{{ $t('profile.pro.perk3') }}</div>
+          <div class="perk-item">{{ $t('profile.pro.perk4') }}</div>
         </div>
 
         <div class="pro-expire" v-if="authStore.proExpireAt">
-          <span class="expire-label">有效期至</span>
+          <span class="expire-label">{{ $t('profile.pro.expireLabel') }}</span>
           <span class="expire-date">{{ formatExpireDate }}</span>
         </div>
         <div class="pro-expire" v-else>
-          <span class="expire-label">会员类型</span>
-          <span class="expire-date">终身会员 · 永久有效</span>
+          <span class="expire-label">{{ $t('profile.pro.lifetimeLabel') }}</span>
+          <span class="expire-date">{{ $t('profile.pro.lifetimeValue') }}</span>
         </div>
       </div>
     </div>
 
     <!-- 历史记录 -->
     <div class="card" v-if="checkinStore.checkins.length > 0">
-      <h3 class="card-title">打卡历史</h3>
-      
+      <h3 class="card-title">{{ $t('profile.history.title') }}</h3>
+
       <div v-if="hasHiddenRecords" class="upgrade-hint">
-        <p>📦 历史记录仅显示最近30天</p>
+        <p>{{ $t('profile.upgrade.hint') }}</p>
         <button @click="showUpgradeModal = true" class="upgrade-btn-small">
-          升级Pro查看全部
+          {{ $t('profile.upgrade.hintBtn') }}
         </button>
       </div>
-      
+
       <div class="history-list">
-        <div 
-          v-for="item in visibleCheckins" 
+        <div
+          v-for="item in visibleCheckins"
           :key="item.id"
           class="history-item"
         >
           <div class="history-date">
             {{ formatDate(item.date) }}
             <span :class="item.status === 'yes' ? 'status-yes' : 'status-no'">
-              {{ item.status === 'yes' ? '✅' : '❌' }}
+              {{ item.status === 'yes' ? $t('profile.history.statusYes') : $t('profile.history.statusNo') }}
             </span>
           </div>
           <div class="history-note" v-if="item.note">{{ item.note }}</div>
@@ -100,8 +100,8 @@
     <div class="card export-card" v-if="authStore.isPro">
       <div class="export-header">
         <div>
-          <h3 class="card-title">导出数据</h3>
-          <p class="export-desc">将全部打卡记录导出到本地，共 {{ checkinStore.checkins.length }} 条</p>
+          <h3 class="card-title">{{ $t('profile.export.title') }}</h3>
+          <p class="export-desc">{{ exportDesc }}</p>
         </div>
         <ProBadge />
       </div>
@@ -110,26 +110,26 @@
         <button class="export-btn export-csv" @click="exportCSV" :disabled="checkinStore.checkins.length === 0">
           <span class="export-icon">📊</span>
           <div class="export-btn-info">
-            <span class="export-fmt">导出 CSV</span>
-            <span class="export-tip">可用 Excel 打开</span>
+            <span class="export-fmt">{{ $t('profile.export.csvBtn') }}</span>
+            <span class="export-tip">{{ $t('profile.export.csvTip') }}</span>
           </div>
         </button>
 
         <button class="export-btn export-json" @click="exportJSON" :disabled="checkinStore.checkins.length === 0">
           <span class="export-icon">📄</span>
           <div class="export-btn-info">
-            <span class="export-fmt">导出 JSON</span>
-            <span class="export-tip">开发者 / 备份用</span>
+            <span class="export-fmt">{{ $t('profile.export.jsonBtn') }}</span>
+            <span class="export-tip">{{ $t('profile.export.jsonTip') }}</span>
           </div>
         </button>
       </div>
 
-      <div v-if="exportSuccess" class="export-success">✅ 导出成功，请查看下载文件</div>
+      <div v-if="exportSuccess" class="export-success">{{ $t('profile.export.success') }}</div>
     </div>
 
     <!-- 退出登录 -->
     <div class="card">
-      <button @click="handleLogout" class="logout-btn-full">退出登录</button>
+      <button @click="handleLogout" class="logout-btn-full">{{ $t('profile.logout') }}</button>
     </div>
 
     <UpgradeModal
@@ -148,11 +148,17 @@ import { useCheckinStore } from '@/stores/checkin'
 import { format } from 'date-fns'
 import ProBadge from '@/components/ProBadge.vue'
 import UpgradeModal from '@/components/UpgradeModal.vue'
+import i18n from '@/i18n'
 
 const router = useRouter()
 const authStore = useAuthStore()
 const checkinStore = useCheckinStore()
 const showUpgradeModal = ref(false)
+
+// 带条数插值的导出描述，响应语言切换
+const exportDesc = computed(() =>
+  i18n.t('profile.export.desc').replace('{count}', checkinStore.checkins.length)
+)
 
 const userInitial = computed(() => {
   const name = authStore.user?.user_metadata?.full_name || authStore.user?.email

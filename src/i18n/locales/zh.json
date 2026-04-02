@@ -52,5 +52,48 @@
   },
   "calendar": {
     "weekdays": ["日", "一", "二", "三", "四", "五", "六"]
+  },
+  "profile": {
+    "title": "个人中心",
+    "back": "← 返回",
+    "upgrade": {
+      "title": "升级Pro会员",
+      "subtitle": "解锁完整功能，更好的数据体验",
+      "feature1": "✅ 无限历史记录",
+      "feature2": "✅ 数据趋势分析",
+      "feature3": "✅ 导出数据",
+      "feature4": "✅ 多设备同步",
+      "price": "仅需 $2.9/月",
+      "btn": "立即升级",
+      "hint": "📦 历史记录仅显示最近30天",
+      "hintBtn": "升级Pro查看全部"
+    },
+    "pro": {
+      "badge": "PRO 会员",
+      "slogan": "尊享全部特权",
+      "perk1": "✦ 无限历史记录",
+      "perk2": "✦ 数据趋势分析",
+      "perk3": "✦ 导出数据",
+      "perk4": "✦ 多设备同步",
+      "expireLabel": "有效期至",
+      "lifetimeLabel": "会员类型",
+      "lifetimeValue": "终身会员 · 永久有效"
+    },
+    "history": {
+      "title": "打卡历史",
+      "statusYes": "✅",
+      "statusNo": "❌"
+    },
+    "export": {
+      "title": "导出数据",
+      "desc": "将全部打卡记录导出到本地，共 {count} 条",
+      "csvBtn": "导出 CSV",
+      "csvTip": "可用 Excel 打开",
+      "jsonBtn": "导出 JSON",
+      "jsonTip": "开发者 / 备份用",
+      "success": "✅ 导出成功，请查看下载文件"
+    },
+    "logout": "退出登录",
+    "secureHint": "🔒 支付由 PayPal 安全处理，我们不存储您的支付信息"
   }
 }
