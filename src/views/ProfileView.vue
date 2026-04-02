@@ -96,6 +96,37 @@
       </div>
     </div>
 
+    <!-- 数据导出（Pro专属） -->
+    <div class="card export-card" v-if="authStore.isPro">
+      <div class="export-header">
+        <div>
+          <h3 class="card-title">导出数据</h3>
+          <p class="export-desc">将全部打卡记录导出到本地，共 {{ checkinStore.checkins.length }} 条</p>
+        </div>
+        <ProBadge />
+      </div>
+
+      <div class="export-btns">
+        <button class="export-btn export-csv" @click="exportCSV" :disabled="checkinStore.checkins.length === 0">
+          <span class="export-icon">📊</span>
+          <div class="export-btn-info">
+            <span class="export-fmt">导出 CSV</span>
+            <span class="export-tip">可用 Excel 打开</span>
+          </div>
+        </button>
+
+        <button class="export-btn export-json" @click="exportJSON" :disabled="checkinStore.checkins.length === 0">
+          <span class="export-icon">📄</span>
+          <div class="export-btn-info">
+            <span class="export-fmt">导出 JSON</span>
+            <span class="export-tip">开发者 / 备份用</span>
+          </div>
+        </button>
+      </div>
+
+      <div v-if="exportSuccess" class="export-success">✅ 导出成功，请查看下载文件</div>
+    </div>
+
     <!-- 退出登录 -->
     <div class="card">
       <button @click="handleLogout" class="logout-btn-full">退出登录</button>
@@ -159,6 +190,43 @@ const goBack = () => {
 const handleLogout = async () => {
   await authStore.signOut()
   router.push('/auth')
+}
+
+const exportSuccess = ref(false)
+
+function triggerDownload(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+  exportSuccess.value = true
+  setTimeout(() => { exportSuccess.value = false }, 3000)
+}
+
+function exportCSV() {
+  const BOM = '\uFEFF' // Excel 识别 UTF-8 中文
+  const header = '日期,状态,备注\n'
+  const rows = checkinStore.checkins.map(c => {
+    const status = c.status === 'yes' ? '已完成' : '未完成'
+    const note = (c.note || '').replace(/"/g, '""')
+    return `${c.date},${status},"${note}"`
+  }).join('\n')
+  const filename = `打卡记录_${format(new Date(), 'yyyyMMdd')}.csv`
+  triggerDownload(BOM + header + rows, filename, 'text/csv;charset=utf-8')
+}
+
+function exportJSON() {
+  const data = checkinStore.checkins.map(c => ({
+    date: c.date,
+    status: c.status === 'yes' ? '已完成' : '未完成',
+    note: c.note || ''
+  }))
+  const content = JSON.stringify({ exportedAt: new Date().toISOString(), total: data.length, records: data }, null, 2)
+  const filename = `打卡记录_${format(new Date(), 'yyyyMMdd')}.json`
+  triggerDownload(content, filename, 'application/json')
 }
 
 const handleUpgraded = () => {
@@ -530,5 +598,90 @@ h1 {
   font-size: 14px;
   font-weight: 600;
   color: #f6d365;
+}
+
+/* ===== 导出数据卡片 ===== */
+.export-card {
+  border: 1px solid #e5e7eb;
+}
+
+.export-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.export-desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.export-btns {
+  display: flex;
+  gap: 12px;
+}
+
+.export-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.export-btn:hover:not(:disabled) {
+  border-color: #667eea;
+  background: #f0f4ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.export-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.export-csv:hover:not(:disabled) { border-color: #16a34a; background: #f0fdf4; box-shadow: 0 4px 12px rgba(22,163,74,0.15); }
+.export-json:hover:not(:disabled) { border-color: #ea580c; background: #fff7ed; box-shadow: 0 4px 12px rgba(234,88,12,0.15); }
+
+.export-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.export-btn-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.export-fmt {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.export-tip {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.export-success {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #16a34a;
+  text-align: center;
 }
 </style>
