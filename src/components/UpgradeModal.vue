@@ -3,20 +3,20 @@
     <div class="modal-content">
       <button class="close-btn" @click="$emit('close')">✕</button>
 
-      <h2>升级Pro会员</h2>
-      <p class="subtitle">解锁完整功能，更好的数据体验</p>
+      <h2>{{ $t('profile.upgradeModal.title') }}</h2>
+      <p class="subtitle">{{ $t('profile.upgradeModal.subtitle') }}</p>
 
       <!-- 功能对比表 -->
       <div class="comparison-table">
         <div class="comparison-header">
-          <div class="feature-col">功能</div>
-          <div class="free-col">免费版</div>
-          <div class="pro-col">Pro版</div>
+          <div class="feature-col">{{ $t('profile.upgradeModal.tableFeature') }}</div>
+          <div class="free-col">{{ $t('profile.upgradeModal.tableFree') }}</div>
+          <div class="pro-col">{{ $t('profile.upgradeModal.tablePro') }}</div>
         </div>
-        <div class="comparison-row" v-for="row in features" :key="row.name">
-          <div class="feature-col">{{ row.name }}</div>
-          <div class="free-col">{{ row.free }}</div>
-          <div class="pro-col">{{ row.pro }}</div>
+        <div class="comparison-row" v-for="row in features" :key="row.key">
+          <div class="feature-col">{{ $t(`profile.upgradeModal.features.${row.key}`) }}</div>
+          <div class="free-col">{{ row.freeKey ? $t(`profile.upgradeModal.${row.freeKey}`) : row.free }}</div>
+          <div class="pro-col">{{ row.proKey ? $t(`profile.upgradeModal.${row.proKey}`) : row.pro }}</div>
         </div>
       </div>
 
@@ -29,12 +29,14 @@
           :class="{ active: selectedPlan === key, popular: key === 'yearly' }"
           @click="selectPlan(key)"
         >
-          <div v-if="key === 'yearly'" class="popular-badge">最划算</div>
-          <div class="plan-name">{{ plan.label }}</div>
+          <div v-if="key === 'yearly'" class="popular-badge">{{ $t('profile.upgradeModal.plans.popularBadge') }}</div>
+          <div class="plan-name">{{ $t(`profile.upgradeModal.plans.${key}`) }}</div>
           <div class="plan-price">
-            ${{ plan.price }}<span v-if="key === 'monthly'">/月</span><span v-if="key === 'yearly'">/年</span>
+            ${{ plan.price }}
+            <span v-if="key === 'monthly'">{{ $t('profile.upgradeModal.plans.perMonth') }}</span>
+            <span v-if="key === 'yearly'">{{ $t('profile.upgradeModal.plans.perYear') }}</span>
           </div>
-          <div v-if="key === 'yearly'" class="plan-save">节省$5.8</div>
+          <div v-if="key === 'yearly'" class="plan-save">{{ $t('profile.upgradeModal.plans.saveAmount') }}</div>
         </div>
       </div>
 
@@ -43,7 +45,7 @@
         <!-- 加载中 -->
         <div v-if="sdkLoading" class="sdk-loading">
           <div class="spinner"></div>
-          <span>加载支付...</span>
+          <span>{{ $t('profile.upgradeModal.loading') }}</span>
         </div>
 
         <!-- PayPal 按钮容器：始终保持在 DOM 中，用 visibility 控制显隐 -->
@@ -55,27 +57,29 @@
 
         <!-- 支付成功 -->
         <div v-if="paymentSuccess" class="payment-success">
-          <div class="success-icon">🎉</div>
-          <h3>升级成功！</h3>
-          <p>欢迎加入 Pro 会员</p>
+          <div class="success-icon">{{ $t('profile.upgradeModal.successIcon') }}</div>
+          <h3>{{ $t('profile.upgradeModal.successTitle') }}</h3>
+          <p>{{ $t('profile.upgradeModal.successMsg') }}</p>
         </div>
 
         <!-- 支付错误 -->
         <div v-if="paymentError" class="payment-error">
           <p>{{ paymentError }}</p>
-          <button class="retry-btn" @click="retryPayment">重试</button>
+          <button class="retry-btn" @click="retryPayment">{{ $t('profile.upgradeModal.retryBtn') }}</button>
         </div>
       </div>
 
-      <p class="secure-hint">🔒 支付由 PayPal 安全处理，我们不存储您的支付信息</p>
+      <p class="secure-hint">{{ $t('profile.upgradeModal.secureHint') }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, watch, nextTick, onUnmounted } from 'vue'
+import { getCurrentInstance } from 'vue'
 import { PLANS, renderPaypalButton } from '@/composables/usePaypal'
 import { useAuthStore } from '@/stores/auth'
+import i18n from '@/i18n'
 
 const props = defineProps({
   visible: Boolean
@@ -91,12 +95,13 @@ const paypalContainerId = 'paypal-buttons-container'
 
 let currentButtons = null
 
+// key 对应 i18n features.xxx，free/pro 用 freeKey/proKey 指向 i18n 或直接传 emoji
 const features = [
-  { name: '打卡记录', free: '✅', pro: '✅' },
-  { name: '历史记录', free: '仅30天', pro: '✅ 无限' },
-  { name: '数据分析', free: '❌', pro: '✅' },
-  { name: '数据导出', free: '❌', pro: '✅' },
-  { name: '多设备同步', free: '❌', pro: '✅' }
+  { key: 'checkin',   free: '✅', pro: '✅' },
+  { key: 'history',   freeKey: 'freeHistory', proKey: 'proUnlimited' },
+  { key: 'analytics', free: '❌', pro: '✅' },
+  { key: 'export',    free: '❌', pro: '✅' },
+  { key: 'sync',      free: '❌', pro: '✅' }
 ]
 
 async function mountPaypalButtons() {
@@ -125,7 +130,7 @@ async function mountPaypalButtons() {
       handlePaymentError
     )
   } catch (err) {
-    paymentError.value = `支付加载失败：${err.message}`
+    paymentError.value = `${i18n.t('profile.upgradeModal.loadErrorPrefix')}${err.message}`
   } finally {
     sdkLoading.value = false
   }
@@ -141,7 +146,7 @@ async function selectPlan(key) {
 async function handlePaymentSuccess({ orderId, planKey, expireAt }) {
   const { error } = await authStore.upgradeToPro(expireAt)
   if (error) {
-    paymentError.value = `支付成功，但状态更新失败：${error.message}。请联系客服。`
+    paymentError.value = `${i18n.t('profile.upgradeModal.updateErrorPrefix')}${error.message}。请联系客服。`
     return
   }
   paymentSuccess.value = true
@@ -154,7 +159,7 @@ async function handlePaymentSuccess({ orderId, planKey, expireAt }) {
 }
 
 function handlePaymentError(err) {
-  paymentError.value = `支付遇到问题：${err.message || '未知错误'}`
+  paymentError.value = `${i18n.t('profile.upgradeModal.errorPrefix')}${err.message || '未知错误'}`
 }
 
 async function retryPayment() {

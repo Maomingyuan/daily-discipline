@@ -68,6 +68,40 @@
       "hint": "📦 History limited to last 30 days",
       "hintBtn": "Upgrade Pro to see all"
     },
+    "upgradeModal": {
+      "title": "Upgrade to Pro",
+      "subtitle": "Unlock all features for a better experience",
+      "tableFeature": "Feature",
+      "tableFree": "Free",
+      "tablePro": "Pro",
+      "features": {
+        "checkin": "Check-ins",
+        "history": "History",
+        "analytics": "Analytics",
+        "export": "Data Export",
+        "sync": "Multi-device Sync"
+      },
+      "freeHistory": "Last 30 days",
+      "proUnlimited": "✅ Unlimited",
+      "plans": {
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "lifetime": "Lifetime",
+        "popularBadge": "Best Value",
+        "perMonth": "/mo",
+        "perYear": "/yr",
+        "saveAmount": "Save $5.8"
+      },
+      "loading": "Loading payment...",
+      "successIcon": "🎉",
+      "successTitle": "Upgrade Successful!",
+      "successMsg": "Welcome to Pro membership",
+      "retryBtn": "Retry",
+      "secureHint": "🔒 Payments processed securely by PayPal. We never store your payment info.",
+      "errorPrefix": "Payment issue: ",
+      "loadErrorPrefix": "Failed to load payment: ",
+      "updateErrorPrefix": "Payment succeeded, but status update failed: "
+    },
     "pro": {
       "badge": "PRO Member",
       "slogan": "Enjoy all privileges",

@@ -68,6 +68,40 @@
       "hint": "📦 历史记录仅显示最近30天",
       "hintBtn": "升级Pro查看全部"
     },
+    "upgradeModal": {
+      "title": "升级Pro会员",
+      "subtitle": "解锁完整功能，更好的数据体验",
+      "tableFeature": "功能",
+      "tableFree": "免费版",
+      "tablePro": "Pro版",
+      "features": {
+        "checkin": "打卡记录",
+        "history": "历史记录",
+        "analytics": "数据分析",
+        "export": "数据导出",
+        "sync": "多设备同步"
+      },
+      "freeHistory": "仅30天",
+      "proUnlimited": "✅ 无限",
+      "plans": {
+        "monthly": "月付",
+        "yearly": "年付",
+        "lifetime": "终身",
+        "popularBadge": "最划算",
+        "perMonth": "/月",
+        "perYear": "/年",
+        "saveAmount": "节省$5.8"
+      },
+      "loading": "加载支付...",
+      "successIcon": "🎉",
+      "successTitle": "升级成功！",
+      "successMsg": "欢迎加入 Pro 会员",
+      "retryBtn": "重试",
+      "secureHint": "🔒 支付由 PayPal 安全处理，我们不存储您的支付信息",
+      "errorPrefix": "支付遇到问题：",
+      "loadErrorPrefix": "支付加载失败：",
+      "updateErrorPrefix": "支付成功，但状态更新失败："
+    },
     "pro": {
       "badge": "PRO 会员",
       "slogan": "尊享全部特权",
